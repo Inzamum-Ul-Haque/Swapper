@@ -1,5 +1,9 @@
 @import url(https://fonts.googleapis.com/css?family=Signika+Negative:300,regular,500,600,700);
 
+* {
+  font-family: "Signika Negative", sans-serif;
+}
+
 .App {
   text-align: center;
 }
