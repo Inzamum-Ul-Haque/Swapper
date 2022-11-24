@@ -2,23 +2,62 @@ import React from "react";
 import { Link, Outlet } from "react-router-dom";
 import Footer from "../Pages/Shared/Footer/Footer";
 import Navbar from "../Pages/Shared/Navbar/Navbar";
-import { BsCardList } from "react-icons/bs";
+import { BsCardList, BsPeopleFill } from "react-icons/bs";
 import { BiNotepad } from "react-icons/bi";
+import { GrAdd } from "react-icons/gr";
+import { MdProductionQuantityLimits } from "react-icons/md";
+import { FaPeopleArrows } from "react-icons/fa";
+import { IoIosPeople } from "react-icons/io";
 
 const DashboardLayout = () => {
-  let user = "admin";
+  let user = "seller";
   let li = "";
-  if (user === "admin") {
+  if (user === "buyer") {
     li = (
       <>
         <li className="hover:bg-gray-300 rounded-md">
-          <Link to="/dashboard">
+          <Link to="/dashboard/my-orders">
             <BsCardList /> My Orders
           </Link>
         </li>
         <li className="hover:bg-gray-300 rounded-md">
           <Link to="/dashboard">
             <BiNotepad /> My Wishlist
+          </Link>
+        </li>
+      </>
+    );
+  } else if (user === "seller") {
+    li = (
+      <>
+        <li className="hover:bg-gray-300 rounded-md">
+          <Link to="/dashboard/add-product">
+            <GrAdd /> Add a Product
+          </Link>
+        </li>
+        <li className="hover:bg-gray-300 rounded-md">
+          <Link to="/dashboard/my-products">
+            <MdProductionQuantityLimits /> My Products
+          </Link>
+        </li>
+        <li className="hover:bg-gray-300 rounded-md">
+          <Link to="/dashboard">
+            <BsPeopleFill /> My Buyers
+          </Link>
+        </li>
+      </>
+    );
+  } else {
+    li = (
+      <>
+        <li className="hover:bg-gray-300 rounded-md">
+          <Link to="/dashboard/all-sellers">
+            <FaPeopleArrows /> All Sellers
+          </Link>
+        </li>
+        <li className="hover:bg-gray-300 rounded-md">
+          <Link to="/dashboard/all-users">
+            <IoIosPeople /> All Users
           </Link>
         </li>
       </>

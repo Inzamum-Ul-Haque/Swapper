@@ -73,7 +73,7 @@ const Navbar = () => {
       </div>
       <div className="navbar-end">
         <Link
-          to="/"
+          to="/sign-in"
           className="text-white btn btn-primary hover:bg-sky-400 hover:border-sky-400"
         >
           Login <RiLoginCircleFill className="ml-2 text-xl" />
