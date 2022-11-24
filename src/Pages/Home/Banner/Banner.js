@@ -27,7 +27,7 @@ const Banner = () => {
           Find Categories
         </button>
       </div>
-      <Lottie options={defaultOptions} height={400} width={400} />
+      <Lottie options={defaultOptions} height={500} width={500} />
     </div>
   );
 };
