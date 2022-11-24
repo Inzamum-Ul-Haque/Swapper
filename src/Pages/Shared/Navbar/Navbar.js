@@ -1,10 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import logo from "../../../../Assets/logos/icons8-laptop-94.png";
+import logo from "../../../Assets/logos/icons8-laptop-94.png";
+import { RiLoginCircleFill } from "react-icons/ri";
 
 const Navbar = () => {
   return (
-    <div className="navbar bg-base-100 shadow-md">
+    <div className="navbar bg-base-100 shadow-md text-black">
       <div className="navbar-start">
         <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -29,16 +30,16 @@ const Navbar = () => {
           >
             <li>
               <Link
-                className="rounded-xl bg-white border border-white hover:bg-transparent hover:border-[#0FAEEF] mr-2"
-                to="/"
+                className="rounded-x bg-white border border-white hover:bg-transparent hover:border-primary mr-2"
+                to="/dashboard"
               >
                 Dashboard
               </Link>
             </li>
             <li>
               <Link
-                className="rounded-xl bg-white border border-white hover:bg-transparent hover:border-[#0FAEEF] mr-2"
-                to="/"
+                className="rounded-xl bg-white border border-white hover:bg-transparent hover:border-primary mr-2"
+                to="/blog"
               >
                 Blog
               </Link>
@@ -54,16 +55,16 @@ const Navbar = () => {
         <ul className="menu menu-horizontal p-0">
           <li>
             <Link
-              className="rounded-xl bg-white border border-white hover:bg-transparent hover:border-[#0FAEEF] mr-2"
-              to="/"
+              className="rounded-xl text-black bg-white border border-white hover:bg-transparent hover:border-primary mr-2"
+              to="/dashboard"
             >
               Dashboard
             </Link>
           </li>
           <li>
             <Link
-              className="rounded-xl bg-white border border-white hover:bg-transparent hover:border-[#0FAEEF] mr-2"
-              to="/"
+              className="rounded-xl text-black bg-white border border-white hover:bg-transparent hover:border-primary mr-2"
+              to="/blog"
             >
               Blog
             </Link>
@@ -71,8 +72,11 @@ const Navbar = () => {
         </ul>
       </div>
       <div className="navbar-end">
-        <Link to="/" className="btn">
-          Login
+        <Link
+          to="/"
+          className="text-white btn btn-primary hover:bg-sky-400 hover:border-sky-400"
+        >
+          Login <RiLoginCircleFill className="ml-2 text-xl" />
         </Link>
       </div>
     </div>
