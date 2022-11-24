@@ -5,7 +5,7 @@ import { RiLoginCircleFill } from "react-icons/ri";
 
 const Navbar = () => {
   return (
-    <div className="navbar bg-base-100 shadow-md text-black">
+    <div className="navbar bg-base-100 shadow-md text-secondary">
       <div className="navbar-start">
         <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -55,7 +55,7 @@ const Navbar = () => {
         <ul className="menu menu-horizontal p-0">
           <li>
             <Link
-              className="rounded-xl text-black bg-white border border-white hover:bg-transparent hover:border-primary mr-2"
+              className="rounded-xl bg-white border border-white hover:bg-transparent hover:border-primary mr-2"
               to="/dashboard"
             >
               Dashboard
@@ -63,7 +63,7 @@ const Navbar = () => {
           </li>
           <li>
             <Link
-              className="rounded-xl text-black bg-white border border-white hover:bg-transparent hover:border-primary mr-2"
+              className="rounded-xl bg-white border border-white hover:bg-transparent hover:border-primary mr-2"
               to="/blog"
             >
               Blog
