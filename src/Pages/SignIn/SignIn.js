@@ -16,9 +16,9 @@ const SignIn = () => {
 
   return (
     <div className="flex items-center justify-center text-secondary">
-      <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 items-center justify-center p-5 shadow-xl">
+      <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 items-center justify-center py-5 shadow-xl">
         <div className="text-left flex flex-col items-center justify-center py-5">
-          <h2 className="text-3xl font-bold">Login</h2>
+          <h2 className="text-3xl font-bold">Sign In</h2>
           <p className="text-lg mt-3">
             Don't have an account?{" "}
             <Link className="text-green-500" to="/sign-up">
@@ -27,7 +27,7 @@ const SignIn = () => {
             now!
           </p>
 
-          <form className="flex flex-col gap-5 w-3/4">
+          <form className="flex flex-col gap-y-5 w-3/4">
             <input
               className="p-2 mt-8 rounded-xl border focus:border-primary"
               type="email"
@@ -55,7 +55,7 @@ const SignIn = () => {
           </button>
         </div>
         <div>
-          <Lottie options={defaultOptions} height={500} width={500} />
+          <Lottie options={defaultOptions} height={480} width={480} />
         </div>
       </div>
     </div>
