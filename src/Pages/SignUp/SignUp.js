@@ -176,8 +176,7 @@ const SignUp = () => {
               </button>
             ) : (
               <button
-                type="button"
-                className="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold leading-6 text-white transition duration-150 ease-in-out bg-green-500 rounded-md shadow cursor-not-allowed hover:bg-green-400"
+                className="btn inline-flex items-center justify-center mt-3 py-2 font-semibold text-white transition duration-150 ease-in-out bg-green-500 cursor-not-allowed hover:bg-green-700 hover:border-green-700"
                 disabled=""
               >
                 <svg
