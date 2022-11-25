@@ -1,9 +1,23 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../../Assets/logos/icons8-laptop-94.png";
-import { RiLoginCircleFill } from "react-icons/ri";
+import { RiLoginCircleFill, RiLogoutCircleFill } from "react-icons/ri";
+import { AuthContext } from "../../../Contexts/AuthProvider";
 
 const Navbar = () => {
+  const { user, signOutUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogOut = () => {
+    signOutUser()
+      .then(() => {
+        navigate("/sign-in");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   return (
     <div className="navbar bg-base-100 shadow-md text-secondary">
       <div className="navbar-start">
@@ -72,12 +86,22 @@ const Navbar = () => {
         </ul>
       </div>
       <div className="navbar-end">
-        <Link
-          to="/sign-in"
-          className="text-white btn btn-primary hover:bg-sky-400 hover:border-sky-400"
-        >
-          Login <RiLoginCircleFill className="ml-2 text-xl" />
-        </Link>
+        {user ? (
+          <Link
+            onClick={handleLogOut}
+            to="/sign-in"
+            className="text-white btn btn-primary hover:bg-sky-400 hover:border-sky-400"
+          >
+            Logout <RiLogoutCircleFill className="ml-2 text-xl" />
+          </Link>
+        ) : (
+          <Link
+            to="/sign-in"
+            className="text-white btn btn-primary hover:bg-sky-400 hover:border-sky-400"
+          >
+            Login <RiLoginCircleFill className="ml-2 text-xl" />
+          </Link>
+        )}
       </div>
       <label
         htmlFor="dashboard-drawer"
