@@ -3,8 +3,14 @@ import signin from "../../Assets/lotties/signin.json";
 import Lottie from "react-lottie";
 import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
+import { useForm } from "react-hook-form";
 
 const SignIn = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const defaultOptions = {
     loop: true,
     autoplay: true,
