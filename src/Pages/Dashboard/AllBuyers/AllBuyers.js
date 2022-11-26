@@ -9,11 +9,12 @@ const AllBuyers = () => {
   const { data: allBuyers = [], isLoading } = useQuery({
     queryKey: ["buyers"],
     queryFn: async () => {
-      const res = await axios.get("http://localhost:5000/buyers");
+      const res = await axios.get(
+        `http://localhost:5000/users?type=${"Buyer"}`
+      );
       return res.data;
     },
   });
-
   const { allData } = allBuyers;
 
   if (isLoading) {
@@ -48,13 +49,19 @@ const AllBuyers = () => {
                   <td>{singleUser.name}</td>
                   <td>{singleUser.email}</td>
                   <td>
-                    <button className="text-white text-sm btn btn-sm bg-red-500 hover:bg-red-600 hover:border-red-600">
-                      Delete <MdDelete className="ml-2" />
-                    </button>
+                    {singleUser.verified ? (
+                      <p className="text-sm font-bold text-green-500">
+                        Verified
+                      </p>
+                    ) : (
+                      <button className="text-white btn btn-sm bg-green-500 hover:bg-green-600 hover:border-green-600 text-center">
+                        Verify <TiTick className="ml-1" />
+                      </button>
+                    )}
                   </td>
                   <td>
-                    <button className="text-white btn btn-sm bg-green-500 hover:bg-green-600 hover:border-green-600">
-                      Verify <TiTick />
+                    <button className="text-white text-sm btn btn-sm bg-red-500 hover:bg-red-600 hover:border-red-600">
+                      Delete <MdDelete className="ml-1" />
                     </button>
                   </td>
                 </tr>
