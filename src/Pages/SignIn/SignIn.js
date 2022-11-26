@@ -6,6 +6,7 @@ import { FcGoogle } from "react-icons/fc";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../Contexts/AuthProvider";
 import { GoogleAuthProvider } from "firebase/auth";
+import { toast } from "react-hot-toast";
 
 const SignIn = () => {
   const { signInUser, providerLogin } = useContext(AuthContext);
@@ -42,14 +43,53 @@ const SignIn = () => {
     setLoginError("");
     providerLogin(googleProvider)
       .then((result) => {
-        // check if user already exists
-        // save user to mongo
-        // issue jwt token
-        navigate(from, { replace: true });
+        fetch("http://localhost:5000/checkUser", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({ userEmail: result.user.email }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            // checks if user already exists in db
+            // if(user does not exist) then call saveusertomongo
+            if (data.status) {
+              navigate(from, { replace: true });
+            } else {
+              saveUserToDb(result.user.email, result.user.displayName, "Buyer");
+            }
+          });
       })
       .catch((error) => {
         console.error(error);
         setLoginError(error.message);
+      });
+  };
+
+  const saveUserToDb = (email, name, userType) => {
+    const userData = {
+      email,
+      name,
+      userType,
+    };
+
+    fetch("http://localhost:5000/user", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status) {
+          // issue jwt token
+          toast.success(data.message);
+          navigate(from, { replace: true });
+        } else {
+          toast.error(data.message);
+        }
       });
   };
 

@@ -4,6 +4,7 @@ import Lottie from "react-lottie";
 import signup from "../../Assets/lotties/signup.json";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../Contexts/AuthProvider";
+import { toast } from "react-hot-toast";
 
 const SignUp = () => {
   const { createUser, updateUserProfile } = useContext(AuthContext);
@@ -35,10 +36,9 @@ const SignUp = () => {
 
         updateUserProfile(userInfo)
           .then(() => {
-            setLoadingButton(false);
-            navigate("/");
             // check if user already exists
             // save user to mongo database
+            saveUserToDb(data.email, data.name, data.userType);
           })
           .catch((error) => {
             console.error(error);
@@ -48,6 +48,34 @@ const SignUp = () => {
       .catch((error) => {
         console.error(error);
         setSignUpError(error.message);
+      });
+  };
+
+  const saveUserToDb = (email, name, userType) => {
+    const userData = {
+      email,
+      name,
+      userType,
+    };
+
+    fetch("http://localhost:5000/user", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status) {
+          // issue jwt token
+          toast.success(data.message);
+          setLoadingButton(false);
+          navigate("/");
+        } else {
+          toast.error(data.message);
+          setLoadingButton(false);
+        }
       });
   };
 
