@@ -11,6 +11,7 @@ import { toast } from "react-hot-toast";
 const SignIn = () => {
   const { signInUser, providerLogin } = useContext(AuthContext);
   const [loginError, setLoginError] = useState("");
+  const [googleLoginError, setGoogleLoginError] = useState("");
   const [loadingButton, setLoadingButton] = useState(false);
   const googleProvider = new GoogleAuthProvider();
   const location = useLocation();
@@ -40,7 +41,7 @@ const SignIn = () => {
   };
 
   const handleGoogleSignIn = () => {
-    setLoginError("");
+    setGoogleLoginError("");
     providerLogin(googleProvider)
       .then((result) => {
         fetch(`http://localhost:5000/checkUser?email=${result.user.email}`)
@@ -51,21 +52,27 @@ const SignIn = () => {
             if (data.status) {
               navigate(from, { replace: true });
             } else {
-              saveUserToDb(result.user.email, result.user.displayName, "Buyer");
+              saveUserToDb(
+                result.user.email,
+                result.user.displayName,
+                "Buyer",
+                false
+              );
             }
           });
       })
       .catch((error) => {
         console.error(error);
-        setLoginError(error.message);
+        setGoogleLoginError(error.message);
       });
   };
 
-  const saveUserToDb = (email, name, userType) => {
+  const saveUserToDb = (email, name, userType, verified) => {
     const userData = {
       email,
       name,
       userType,
+      verified,
     };
 
     fetch("http://localhost:5000/user", {
@@ -188,8 +195,8 @@ const SignIn = () => {
             <FcGoogle className="mr-3" />{" "}
             <span className="text-sm">Login with Google</span>
           </button>
-          {loginError && (
-            <p className="text-sm text-red-500 -mt-5">{loginError}</p>
+          {googleLoginError && (
+            <p className="text-sm text-red-500 text-left mt-5">{loginError}</p>
           )}
         </div>
         <div>

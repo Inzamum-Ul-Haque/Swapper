@@ -47,7 +47,7 @@ const SignUp = () => {
 
               updateUserProfile(userInfo)
                 .then(() => {
-                  saveUserToDb(data.email, data.name, data.userType);
+                  saveUserToDb(data.email, data.name, data.userType, false);
                   // issue jwt token here
                 })
                 .catch((error) => {
@@ -65,11 +65,12 @@ const SignUp = () => {
       });
   };
 
-  const saveUserToDb = (email, name, userType) => {
+  const saveUserToDb = (email, name, userType, verified) => {
     const userData = {
       email,
       name,
       userType,
+      verified,
     };
 
     fetch("http://localhost:5000/user", {

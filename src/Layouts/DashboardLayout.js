@@ -17,7 +17,7 @@ const DashboardLayout = () => {
   const { user } = useContext(AuthContext);
   const url = `http://localhost:5000/user?email=${user?.email}`;
 
-  const { data = [], isLoading } = useQuery({
+  const { data: userData = [], isLoading } = useQuery({
     queryKey: ["user", user?.email],
     queryFn: async () => {
       const res = await axios.get(url);
@@ -30,7 +30,7 @@ const DashboardLayout = () => {
   }
 
   let li = "";
-  if (data.userType === "Buyer") {
+  if (userData?.data?.userType === "Buyer") {
     li = (
       <>
         <li className="hover:bg-gray-300 rounded-md">
@@ -45,7 +45,7 @@ const DashboardLayout = () => {
         </li>
       </>
     );
-  } else if (data.userType === "Seller") {
+  } else if (userData?.data?.userType === "Seller") {
     li = (
       <>
         <li className="hover:bg-gray-300 rounded-md">
@@ -74,8 +74,8 @@ const DashboardLayout = () => {
           </Link>
         </li>
         <li className="hover:bg-gray-300 rounded-md">
-          <Link to="/dashboard/all-users">
-            <IoIosPeople /> All Users
+          <Link to="/dashboard/all-buyers">
+            <IoIosPeople /> All Buyers
           </Link>
         </li>
       </>
