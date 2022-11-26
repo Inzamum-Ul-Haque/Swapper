@@ -43,13 +43,7 @@ const SignIn = () => {
     setLoginError("");
     providerLogin(googleProvider)
       .then((result) => {
-        fetch("http://localhost:5000/checkUser", {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify({ userEmail: result.user.email }),
-        })
+        fetch(`http://localhost:5000/checkUser?email=${result.user.email}`)
           .then((res) => res.json())
           .then((data) => {
             // checks if user already exists in db

@@ -28,26 +28,40 @@ const SignUp = () => {
     }
 
     setLoadingButton(true);
-    createUser(data.email, data.password)
-      .then((result) => {
-        const userInfo = {
-          displayName: data.name,
-        };
 
-        updateUserProfile(userInfo)
-          .then(() => {
-            // check if user already exists
-            // save user to mongo database
-            saveUserToDb(data.email, data.name, data.userType);
-          })
-          .catch((error) => {
-            console.error(error);
-            setSignUpError(error.message);
-          });
-      })
-      .catch((error) => {
-        console.error(error);
-        setSignUpError(error.message);
+    // checks if user already exists in db
+    // if(user does not exist) then call saveusertomongo
+    fetch(`http://localhost:5000/checkUser?email=${data.email}`)
+      .then((res) => res.json())
+      .then((serverData) => {
+        if (serverData.status) {
+          setLoadingButton(false);
+          toast.error(serverData.message);
+          return;
+        } else {
+          createUser(data.email, data.password)
+            .then((result) => {
+              const userInfo = {
+                displayName: data.name,
+              };
+
+              updateUserProfile(userInfo)
+                .then(() => {
+                  saveUserToDb(data.email, data.name, data.userType);
+                  // issue jwt token here
+                })
+                .catch((error) => {
+                  console.error(error);
+                  setSignUpError(error.message);
+                  setLoadingButton(false);
+                });
+            })
+            .catch((error) => {
+              console.error(error);
+              setSignUpError(error.message);
+              setLoadingButton(false);
+            });
+        }
       });
   };
 
@@ -68,7 +82,6 @@ const SignUp = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.status) {
-          // issue jwt token
           toast.success(data.message);
           setLoadingButton(false);
           navigate("/");

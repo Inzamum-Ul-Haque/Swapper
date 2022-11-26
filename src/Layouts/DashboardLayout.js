@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, Outlet } from "react-router-dom";
 import Footer from "../Pages/Shared/Footer/Footer";
 import Navbar from "../Pages/Shared/Navbar/Navbar";
@@ -8,11 +8,24 @@ import { GrAdd } from "react-icons/gr";
 import { MdProductionQuantityLimits } from "react-icons/md";
 import { FaPeopleArrows } from "react-icons/fa";
 import { IoIosPeople } from "react-icons/io";
+import { AuthContext } from "../Contexts/AuthProvider";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 const DashboardLayout = () => {
-  let user = "seller";
+  const { user } = useContext(AuthContext);
+  const url = `http://localhost:5000/user?email=${user?.email}`;
+
+  const { data = [], isLoading } = useQuery({
+    queryKey: ["user", user?.email],
+    queryFn: async () => {
+      const res = await axios.get(url);
+      return res.data;
+    },
+  });
+
   let li = "";
-  if (user === "buyer") {
+  if (data.userType === "Buyer") {
     li = (
       <>
         <li className="hover:bg-gray-300 rounded-md">
@@ -27,7 +40,7 @@ const DashboardLayout = () => {
         </li>
       </>
     );
-  } else if (user === "seller") {
+  } else if (data.userType === "Seller") {
     li = (
       <>
         <li className="hover:bg-gray-300 rounded-md">
