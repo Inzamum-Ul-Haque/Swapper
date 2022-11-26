@@ -11,6 +11,7 @@ import { IoIosPeople } from "react-icons/io";
 import { AuthContext } from "../Contexts/AuthProvider";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import Loading from "../Pages/Shared/Loading/Loading";
 
 const DashboardLayout = () => {
   const { user } = useContext(AuthContext);
@@ -23,6 +24,10 @@ const DashboardLayout = () => {
       return res.data;
     },
   });
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   let li = "";
   if (data.userType === "Buyer") {
