@@ -1,21 +1,25 @@
 import React, { useContext, useState } from "react";
 import signin from "../../Assets/lotties/signin.json";
 import Lottie from "react-lottie";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../Contexts/AuthProvider";
+import { GoogleAuthProvider } from "firebase/auth";
 
 const SignIn = () => {
-  const { signInUser } = useContext(AuthContext);
+  const { signInUser, providerLogin } = useContext(AuthContext);
   const [loginError, setLoginError] = useState("");
   const [loadingButton, setLoadingButton] = useState(false);
+  const googleProvider = new GoogleAuthProvider();
+  const location = useLocation();
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const from = location.state?.from?.pathname || "/";
 
   const handleSignIn = (data) => {
     setLoginError("");
@@ -23,12 +27,28 @@ const SignIn = () => {
     setLoadingButton(true);
     signInUser(data.email, data.password)
       .then((result) => {
+        // issue jwt
         setLoadingButton(false);
-        navigate("/");
+        navigate(from, { replace: true });
       })
       .catch((error) => {
         console.error(error);
         setLoadingButton(false);
+        setLoginError(error.message);
+      });
+  };
+
+  const handleGoogleSignIn = () => {
+    setLoginError("");
+    providerLogin(googleProvider)
+      .then((result) => {
+        // check if user already exists
+        // save user to mongo
+        // issue jwt token
+        navigate(from, { replace: true });
+      })
+      .catch((error) => {
+        console.error(error);
         setLoginError(error.message);
       });
   };
@@ -120,18 +140,23 @@ const SignIn = () => {
             {loginError && (
               <p className="text-sm text-red-500 -mt-5">{loginError}</p>
             )}
+
+            <div className="grid grid-cols-3 items-center text-gray-600 w-full">
+              <hr className="text-gray-400" />
+              <p className="text-center text-sm">OR</p>
+              <hr className="text-gray-400" />
+            </div>
           </form>
-
-          <div className="mt-8 grid grid-cols-3 items-center text-gray-600 w-3/4">
-            <hr className="text-gray-400" />
-            <p className="text-center text-sm">OR</p>
-            <hr className="text-gray-400" />
-          </div>
-
-          <button className="bg-white border py-2 rounded-xl mt-5 flex justify-center items-center w-3/4 hover:shadow-sm hover:shadow-gray-600">
+          <button
+            onClick={handleGoogleSignIn}
+            className="bg-white border py-2 rounded-xl mt-5 flex justify-center items-center w-3/4 hover:shadow-sm hover:shadow-gray-600"
+          >
             <FcGoogle className="mr-3" />{" "}
             <span className="text-sm">Login with Google</span>
           </button>
+          {loginError && (
+            <p className="text-sm text-red-500 -mt-5">{loginError}</p>
+          )}
         </div>
         <div>
           <Lottie options={defaultOptions} height={480} width={480} />

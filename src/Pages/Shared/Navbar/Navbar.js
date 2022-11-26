@@ -44,12 +44,22 @@ const Navbar = () => {
           >
             <li>
               <Link
-                className="rounded-x bg-white border border-white hover:bg-transparent hover:border-primary mr-2"
-                to="/dashboard"
+                className="rounded-xl bg-white border border-white hover:bg-transparent hover:border-primary mr-2"
+                to="/"
               >
-                Dashboard
+                Home
               </Link>
             </li>
+            {user && (
+              <li>
+                <Link
+                  className="rounded-x bg-white border border-white hover:bg-transparent hover:border-primary mr-2"
+                  to="/dashboard"
+                >
+                  Dashboard
+                </Link>
+              </li>
+            )}
             <li>
               <Link
                 className="rounded-xl bg-white border border-white hover:bg-transparent hover:border-primary mr-2"
@@ -70,11 +80,21 @@ const Navbar = () => {
           <li>
             <Link
               className="rounded-xl bg-white border border-white hover:bg-transparent hover:border-primary mr-2"
-              to="/dashboard"
+              to="/"
             >
-              Dashboard
+              Home
             </Link>
           </li>
+          {user && (
+            <li>
+              <Link
+                className="rounded-xl bg-white border border-white hover:bg-transparent hover:border-primary mr-2"
+                to="/dashboard"
+              >
+                Dashboard
+              </Link>
+            </li>
+          )}
           <li>
             <Link
               className="rounded-xl bg-white border border-white hover:bg-transparent hover:border-primary mr-2"

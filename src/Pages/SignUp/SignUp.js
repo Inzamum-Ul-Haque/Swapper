@@ -37,6 +37,7 @@ const SignUp = () => {
           .then(() => {
             setLoadingButton(false);
             navigate("/");
+            // check if user already exists
             // save user to mongo database
           })
           .catch((error) => {

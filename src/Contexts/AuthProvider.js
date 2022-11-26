@@ -7,6 +7,7 @@ import {
   onAuthStateChanged,
   signOut,
   updateProfile,
+  signInWithPopup,
 } from "firebase/auth";
 
 export const AuthContext = createContext();
@@ -24,6 +25,11 @@ const AuthProvider = ({ children }) => {
   const createUser = (email, password) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
+  };
+
+  const providerLogin = (provider) => {
+    setLoading(true);
+    return signInWithPopup(auth, provider);
   };
 
   const signOutUser = () => {
@@ -53,6 +59,7 @@ const AuthProvider = ({ children }) => {
     loading,
     signInUser,
     createUser,
+    providerLogin,
     updateUserProfile,
     signOutUser,
   };
