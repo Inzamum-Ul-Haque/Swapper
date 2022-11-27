@@ -1,13 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Loading from "../../Shared/Loading/Loading";
 import { MdDelete } from "react-icons/md";
-import { TiTick } from "react-icons/ti";
 import { toast } from "react-hot-toast";
+import { TiTick } from "react-icons/ti";
 
 const AllBuyers = () => {
-  const [loadingButton, setLoadingButton] = useState(false);
   const {
     data: allBuyers = [],
     isLoading,
@@ -28,7 +27,7 @@ const AllBuyers = () => {
   }
 
   const handleUserDelete = (email) => {
-    setLoadingButton(true);
+    const loadingToast = toast.loading("Deleting buyer...");
     fetch(`http://localhost:5000/user?email=${email}`, {
       method: "DELETE",
     })
@@ -36,11 +35,12 @@ const AllBuyers = () => {
       .then((result) => {
         if (result.status) {
           toast.success(result.message);
-          setLoadingButton(false);
+          toast.remove(loadingToast);
+
           refetch();
         } else {
           toast.error(result.message);
-          setLoadingButton(false);
+          toast.remove(loadingToast);
         }
       });
   };
@@ -59,11 +59,10 @@ const AllBuyers = () => {
           <table className="table w-full">
             <thead>
               <tr>
-                <th className="bg-gray-300"></th>
-                <th className="bg-gray-300">Name</th>
-                <th className="bg-gray-300">Email</th>
-                <th className="bg-gray-300"></th>
-                <th className="bg-gray-300"></th>
+                <th className="bg-gray-300 w-1/5">Serial</th>
+                <th className="bg-gray-300 w-1/4">Name</th>
+                <th className="bg-gray-300 w-1/4">Email</th>
+                <th className="bg-gray-300 w-1/4 text-center">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -72,7 +71,7 @@ const AllBuyers = () => {
                   <th>{idx + 1}</th>
                   <td>{singleUser.name}</td>
                   <td>{singleUser.email}</td>
-                  <td>
+                  <td className="flex justify-evenly items-center">
                     {singleUser.verified ? (
                       <p className="text-sm font-bold text-green-500">
                         Verified
@@ -82,43 +81,12 @@ const AllBuyers = () => {
                         Verify <TiTick className="ml-1" />
                       </button>
                     )}
-                  </td>
-                  <td>
-                    {loadingButton ? (
-                      <button
-                        onClick={() => handleUserDelete(singleUser.email)}
-                        className="text-white text-sm btn btn-sm bg-red-500 hover:bg-red-600 hover:border-red-600"
-                      >
-                        Delete{" "}
-                        <svg
-                          className="w-3 h-3 mr-3 -ml-1 text-white animate-spin"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                        >
-                          <circle
-                            className="opacity-25"
-                            cx="12"
-                            cy="12"
-                            r="10"
-                            stroke="currentColor"
-                            strokeWidth="4"
-                          ></circle>
-                          <path
-                            className="opacity-75"
-                            fill="currentColor"
-                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                          ></path>
-                        </svg>
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => handleUserDelete(singleUser.email)}
-                        className="text-white text-sm btn btn-sm bg-red-500 hover:bg-red-600 hover:border-red-600"
-                      >
-                        Delete <MdDelete className="ml-1" />
-                      </button>
-                    )}
+                    <button
+                      onClick={() => handleUserDelete(singleUser.email)}
+                      className="text-white text-sm btn btn-sm bg-red-500 hover:bg-red-600 hover:border-red-600"
+                    >
+                      Delete <MdDelete className="ml-1" />
+                    </button>
                   </td>
                 </tr>
               ))}
