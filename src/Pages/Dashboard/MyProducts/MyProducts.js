@@ -7,11 +7,18 @@ import axios from "axios";
 import Loading from "../../Shared/Loading/Loading";
 import ViewDetailsModal from "../../Shared/ViewDetailsModal/ViewDetailsModal";
 import sale from "../../../Assets/gifs/icons8-sale.gif";
+import { toast } from "react-hot-toast";
+import ConfirmationModal from "../../Shared/ConfirmationModal/ConfirmationModal";
 
 const MyProducts = () => {
   const { user } = useContext(AuthContext);
   const [productDetails, setProductDetails] = useState(null);
-  const { data: allProducts, isLoading } = useQuery({
+  const [deletingProduct, setDeletingProduct] = useState(null);
+  const {
+    data: allProducts,
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["products", user?.email],
     queryFn: async () => {
       const res = await axios.get(
@@ -27,7 +34,27 @@ const MyProducts = () => {
 
   const { data } = allProducts;
 
-  const handleDeleteProduct = () => {};
+  const closeModal = () => {
+    setDeletingProduct(null);
+  };
+
+  const handleDeleteProduct = (id) => {
+    const loadingToast = toast.loading("Deleting buyer...");
+    fetch(`http://localhost:5000/product/${id}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.status) {
+          toast.success(result.message);
+          toast.remove(loadingToast);
+          refetch();
+        } else {
+          toast.error(result.message);
+          toast.remove(loadingToast);
+        }
+      });
+  };
 
   return (
     <div>
@@ -82,8 +109,18 @@ const MyProducts = () => {
                     <button className="flex items-center btn w-max bg-green-500 text-sm text-white hover:bg-green-700 hover:border-green-700 mb-4">
                       Advertise <AiFillSound className="ml-2 text-lg" />
                     </button>
-                    <button className="flex items-center btn w-max bg-red-500 text-sm text-white hover:bg-red-700 hover:border-red-700 mb-4 ml-4">
-                      Delete this product <MdDelete className="ml-2 text-lg" />
+                    <button
+                      // onClick={() => handleDeleteProduct(product._id)}
+                      className="btn w-max bg-red-500 text-sm text-white hover:bg-red-700 hover:border-red-700 mb-4 ml-4"
+                    >
+                      <label
+                        className="flex items-center"
+                        onClick={() => setDeletingProduct(product)}
+                        htmlFor="confirmation-modal"
+                      >
+                        Delete this product{" "}
+                        <MdDelete className="ml-2 text-lg" />
+                      </label>
                     </button>
                     <button className="btn w-max bg-primary text-sm text-white hover:bg-primary hover:border-primary mb-4 ml-4">
                       <label
@@ -106,6 +143,15 @@ const MyProducts = () => {
         </>
       )}
       {productDetails && <ViewDetailsModal productDetails={productDetails} />}
+      {deletingProduct && (
+        <ConfirmationModal
+          title={"Are you sure want to delete?"}
+          message={"If you delete this item, it cant be undone!"}
+          closeModal={closeModal}
+          modalData={deletingProduct}
+          successAction={handleDeleteProduct}
+        />
+      )}
     </div>
   );
 };

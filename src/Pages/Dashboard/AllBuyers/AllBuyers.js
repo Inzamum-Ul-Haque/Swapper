@@ -36,7 +36,6 @@ const AllBuyers = () => {
         if (result.status) {
           toast.success(result.message);
           toast.remove(loadingToast);
-
           refetch();
         } else {
           toast.error(result.message);
