@@ -1,14 +1,16 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { AiFillSound, AiOutlineInfoCircle } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
 import { AuthContext } from "../../../Contexts/AuthProvider";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Loading from "../../Shared/Loading/Loading";
+import ViewDetailsModal from "../../Shared/ViewDetailsModal/ViewDetailsModal";
+import sale from "../../../Assets/gifs/icons8-sale.gif";
 
 const MyProducts = () => {
   const { user } = useContext(AuthContext);
-
+  const [productDetails, setProductDetails] = useState(null);
   const { data: allProducts, isLoading } = useQuery({
     queryKey: ["products", user?.email],
     queryFn: async () => {
@@ -24,7 +26,8 @@ const MyProducts = () => {
   }
 
   const { data } = allProducts;
-  console.log(data);
+
+  const handleDeleteProduct = () => {};
 
   return (
     <div>
@@ -41,8 +44,15 @@ const MyProducts = () => {
             {data.map((product) => (
               <div
                 key={product._id}
-                className="p-5 flex flex-col mb-5 w-full md:flex-row border rounded-lg bg-white shadow-lg"
+                className="p-5 flex flex-col mb-5 w-full md:flex-row border relative rounded-lg bg-white shadow-lg"
               >
+                {product.productOnSale === "Yes" && (
+                  <img
+                    src={sale}
+                    className="w-12 absolute right-5 top-5"
+                    alt=""
+                  />
+                )}
                 <img
                   className="lg:w-64 md:w-64 sm:w-full object-cover rounded-t-lg md:rounded-none md:rounded-l-lg"
                   src={product.productImage}
@@ -75,9 +85,15 @@ const MyProducts = () => {
                     <button className="flex items-center btn w-max bg-red-500 text-sm text-white hover:bg-red-700 hover:border-red-700 mb-4 ml-4">
                       Delete this product <MdDelete className="ml-2 text-lg" />
                     </button>
-                    <button className="flex items-center btn w-max bg-primary text-sm text-white hover:bg-primary hover:border-primary mb-4 ml-4">
-                      View Details{" "}
-                      <AiOutlineInfoCircle className="ml-2 text-lg" />
+                    <button className="btn w-max bg-primary text-sm text-white hover:bg-primary hover:border-primary mb-4 ml-4">
+                      <label
+                        onClick={() => setProductDetails(product)}
+                        htmlFor="view-details-modal"
+                        className="flex items-center"
+                      >
+                        View Details{" "}
+                        <AiOutlineInfoCircle className="ml-2 text-lg" />
+                      </label>
                     </button>
                   </div>
                   <p className="text-gray-600 text-sm">
@@ -89,6 +105,7 @@ const MyProducts = () => {
           </div>
         </>
       )}
+      {productDetails && <ViewDetailsModal productDetails={productDetails} />}
     </div>
   );
 };

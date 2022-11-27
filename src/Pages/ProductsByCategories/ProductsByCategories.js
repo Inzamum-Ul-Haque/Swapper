@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import {
   MdOutlineNoteAdd,
@@ -11,10 +11,12 @@ import sale from "../../Assets/gifs/icons8-sale.gif";
 import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "../../Contexts/AuthProvider";
 import Loading from "../Shared/Loading/Loading";
+import ViewDetailsModal from "../Shared/ViewDetailsModal/ViewDetailsModal";
 
 const ProductsByCategories = () => {
   const data = useLoaderData();
   const { user } = useContext(AuthContext);
+  const [productDetails, setProductDetails] = useState(null);
 
   const url = `http://localhost:5000/user?email=${user?.email}`;
   const { data: userData = [], isLoading } = useQuery({
@@ -27,39 +29,6 @@ const ProductsByCategories = () => {
 
   if (isLoading) {
     return <Loading />;
-  }
-
-  let buttons = "";
-  if (userData?.data?.userType === "Seller") {
-    buttons = (
-      <>
-        <button className="flex items-center btn w-max bg-primary text-sm text-white hover:bg-primary hover:border-primary mb-4 ml-4">
-          View Details <AiOutlineInfoCircle className="ml-2 text-lg" />
-        </button>
-      </>
-    );
-  } else if (userData?.data?.userType === "Buyer") {
-    buttons = (
-      <>
-        <button className="flex items-center btn w-max bg-yellow-500 text-sm text-white hover:bg-yellow-600 hover:border-yellow-600 mb-4 ml-4">
-          Add to Wishlist <MdOutlineNoteAdd className="ml-2 text-lg" />
-        </button>
-        <button className="flex items-center btn w-max bg-primary text-sm text-white hover:bg-primary hover:border-primary mb-4 ml-4">
-          View Details <AiOutlineInfoCircle className="ml-2 text-lg" />
-        </button>
-        <button className="flex items-center btn w-max bg-green-500 text-sm text-white hover:bg-green-700 hover:border-green-700 mb-4 ml-4">
-          Book Now <MdProductionQuantityLimits className="ml-2 text-lg" />
-        </button>
-      </>
-    );
-  } else {
-    buttons = (
-      <>
-        <button className="flex items-center btn w-max bg-primary text-sm text-white hover:bg-primary hover:border-primary mb-4 ml-4">
-          View Details <AiOutlineInfoCircle className="ml-2 text-lg" />
-        </button>
-      </>
-    );
   }
 
   return (
@@ -113,7 +82,34 @@ const ProductsByCategories = () => {
                       : product.productDescription.slice(0, 300) + " ..."}
                   </p>
                   <div className="flex lg:flex-row md:flex-row sm:flex-col lg:justify-end md:justify-center items-center">
-                    {buttons}
+                    {userData?.data?.userType === "Buyer" && (
+                      <button className="flex items-center btn w-max bg-yellow-500 text-sm text-white hover:bg-yellow-600 hover:border-yellow-600 mb-4 ml-4">
+                        Add to Wishlist{" "}
+                        <MdOutlineNoteAdd className="ml-2 text-lg" />
+                      </button>
+                    )}
+
+                    {(userData?.data?.userType === "Buyer" ||
+                      userData?.data?.userType === "Seller" ||
+                      userData?.data?.userType === "Admin") && (
+                      <button className="btn w-max bg-primary text-sm text-white hover:bg-primary hover:border-primary mb-4 ml-4">
+                        <label
+                          onClick={() => setProductDetails(product)}
+                          htmlFor="view-details-modal"
+                          className="flex items-center"
+                        >
+                          View Details{" "}
+                          <AiOutlineInfoCircle className="ml-2 text-lg" />
+                        </label>
+                      </button>
+                    )}
+
+                    {userData?.data?.userType === "Buyer" && (
+                      <button className="flex items-center btn w-max bg-green-500 text-sm text-white hover:bg-green-700 hover:border-green-700 mb-4 ml-4">
+                        Book Now{" "}
+                        <MdProductionQuantityLimits className="ml-2 text-lg" />
+                      </button>
+                    )}
                   </div>
                   <p className="text-gray-600 text-sm">
                     Location: {product.sellerLocation}
@@ -135,6 +131,7 @@ const ProductsByCategories = () => {
           </div>
         </>
       )}
+      {productDetails && <ViewDetailsModal productDetails={productDetails} />}
     </div>
   );
 };
