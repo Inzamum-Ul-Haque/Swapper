@@ -148,7 +148,7 @@ const MyProducts = () => {
           title={"Are you sure want to delete?"}
           message={"If you delete this item, it cant be undone!"}
           closeModal={closeModal}
-          modalData={deletingProduct}
+          modalData={deletingProduct._id}
           successAction={handleDeleteProduct}
         />
       )}

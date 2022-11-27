@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { MdDelete } from "react-icons/md";
 import { TiTick } from "react-icons/ti";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Loading from "../../Shared/Loading/Loading";
 import { toast } from "react-hot-toast";
+import ConfirmationModal from "../../Shared/ConfirmationModal/ConfirmationModal";
 
 const AllSellers = () => {
+  const [deletingSeller, setDeletingSeller] = useState(null);
   const {
     data: allBuyers = [],
     isLoading,
@@ -21,6 +23,10 @@ const AllSellers = () => {
     },
   });
   const { allData } = allBuyers;
+
+  const closeModal = () => {
+    setDeletingSeller(null);
+  };
 
   if (isLoading) {
     return <Loading />;
@@ -101,11 +107,14 @@ const AllSellers = () => {
                         Verify <TiTick className="ml-1" />
                       </button>
                     )}
-                    <button
-                      onClick={() => handleDeleteSeller(singleUser.email)}
-                      className="text-white text-sm btn btn-sm bg-red-500 hover:bg-red-600 hover:border-red-600"
-                    >
-                      Delete <MdDelete className="ml-1" />
+                    <button className="text-white text-sm btn btn-sm bg-red-500 hover:bg-red-600 hover:border-red-600">
+                      <label
+                        className="flex items-center"
+                        onClick={() => setDeletingSeller(singleUser)}
+                        htmlFor="confirmation-modal"
+                      >
+                        Delete <MdDelete className="ml-1" />
+                      </label>
                     </button>
                   </td>
                 </tr>
@@ -113,6 +122,15 @@ const AllSellers = () => {
             </tbody>
           </table>
         </div>
+      )}
+      {deletingSeller && (
+        <ConfirmationModal
+          title={"Are you sure want to delete this seller?"}
+          message={"If you delete this, it cant be undone!"}
+          closeModal={closeModal}
+          modalData={deletingSeller.email}
+          successAction={handleDeleteSeller}
+        />
       )}
     </div>
   );

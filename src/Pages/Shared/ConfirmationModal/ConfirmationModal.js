@@ -16,9 +16,9 @@ const ConfirmationModal = ({
           <p className="py-4">{message}</p>
           <div className="modal-action">
             <label
-              onClick={() => successAction(modalData._id)}
+              onClick={() => successAction(modalData)}
               htmlFor="confirmation-modal"
-              className="btn btn-error text-white"
+              className="btn btn-error hover:bg-red-600 hover:border-red-600 text-white"
             >
               Delete
             </label>
