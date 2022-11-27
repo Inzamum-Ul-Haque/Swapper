@@ -90,7 +90,7 @@ const AllSellers = () => {
             </thead>
             <tbody>
               {allData.map((singleUser, idx) => (
-                <tr key={singleUser._id} className="hover:bg-gray-500">
+                <tr key={singleUser._id}>
                   <th>{idx + 1}</th>
                   <td>{singleUser.name}</td>
                   <td>{singleUser.email}</td>

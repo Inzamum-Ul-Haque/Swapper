@@ -1,14 +1,30 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import React from "react";
+import React, { useContext, useState } from "react";
+import { MdVerified } from "react-icons/md";
 import sale from "../../../Assets/gifs/icons8-sale.gif";
+import { AuthContext } from "../../../Contexts/AuthProvider";
+import BookingModal from "../../Shared/BookingModal/BookingModal";
 import Loading from "../../Shared/Loading/Loading";
+import ViewDetailsModal from "../../Shared/ViewDetailsModal/ViewDetailsModal";
 
 const Advertisements = () => {
+  const { user } = useContext(AuthContext);
+  const [productDetails, setProductDetails] = useState(null);
   const { data: advertisements = [], isLoading } = useQuery({
     queryKey: ["advertise"],
     queryFn: async () => {
       const res = await axios.get("http://localhost:5000/advertise");
+      return res.data;
+    },
+  });
+
+  const { data: userData = [] } = useQuery({
+    queryKey: ["user", user?.email],
+    queryFn: async () => {
+      const res = await axios.get(
+        `http://localhost:5000/user?email=${user?.email}`
+      );
       return res.data;
     },
   });
@@ -44,23 +60,60 @@ const Advertisements = () => {
             </figure>
             <div className="card-body text-left">
               <h2 className="card-title text-lg">{singleData?.productName}</h2>
-              <p>Location: {singleData?.sellerLocation}</p>
-              <p>Resale price: Tk {singleData?.productResalePrice}</p>
-              <p>Original price: Tk {singleData?.productOriginalPrice}</p>
-              <p>Years used: {singleData?.productUsageTime}</p>
-              <p>Product condition: {singleData?.productCondition}</p>
-              <div className="flex items-center justify-between mt-4">
-                <button className="btn btn-sm text-sm bg-green-500 text-white hover:bg-green-700 hover:border-green-700">
-                  Book Now
-                </button>
+              <p className="text-sm">Location: {singleData?.sellerLocation}</p>
+              <p className="text-sm">
+                Resale price: Tk {singleData?.productResalePrice}
+              </p>
+              <p className="text-sm">
+                Original price: Tk {singleData?.productOriginalPrice}
+              </p>
+              <p className="text-sm">
+                Years used: {singleData?.productUsageTime}
+              </p>
+              <p className="text-sm">
+                Product condition: {singleData?.productCondition}
+              </p>
+              <p className="text-sm">
+                <span className="flex items-center">
+                  Seller: {user.displayName}
+                  {userData?.data?.verified ? (
+                    <MdVerified className="ml-1 text-pri" />
+                  ) : (
+                    <></>
+                  )}
+                </span>
+              </p>
+              <div className="flex items-center justify-center mt-4">
+                {userData?.data?.userType === "Buyer" && (
+                  <button className="btn btn-sm text-sm bg-green-500 text-white hover:bg-green-700 hover:border-green-700">
+                    <label
+                      onClick={() => setProductDetails(singleData)}
+                      htmlFor="booking-modal"
+                    >
+                      Book Now
+                    </label>
+                  </button>
+                )}
                 <button className="btn btn-sm text-sm bg-primary text-white hover:bg-primary hover:border-primary">
-                  View Details
+                  <label
+                    onClick={() => setProductDetails(singleData)}
+                    htmlFor="view-details-modal"
+                  >
+                    View Details
+                  </label>
                 </button>
               </div>
             </div>
           </div>
         ))}
       </div>
+      {productDetails && <ViewDetailsModal productDetails={productDetails} />}
+      {productDetails && (
+        <BookingModal
+          productDetails={productDetails}
+          setProductDetails={setProductDetails}
+        />
+      )}
     </div>
   );
 };

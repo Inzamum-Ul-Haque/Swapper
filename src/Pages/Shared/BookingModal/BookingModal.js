@@ -1,21 +1,27 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { MdProductionQuantityLimits } from "react-icons/md";
+import { AuthContext } from "../../../Contexts/AuthProvider";
 
 const BookingModal = ({ productDetails, setProductDetails }) => {
   const { register, handleSubmit } = useForm();
   const [loading, setLoading] = useState(false);
+  const { user } = useContext(AuthContext);
+
+  console.log(productDetails);
 
   const handleBookOrder = (data) => {
     const booking = {
       productId: productDetails.productId,
+      productImage: productDetails.productImage,
       productName: productDetails.productName,
       productCategory: productDetails.productCategory,
+      productResalePrice: productDetails.productResalePrice,
       sellerName: productDetails.sellerName,
       sellerEmail: productDetails.sellerEmail,
-      buyerName: data.buyerName,
-      buyerEmail: data.buyerEmail,
+      buyerName: user?.displayName,
+      buyerEmail: user?.email,
       buyerNumber: data.buyerNumber,
       meetUpLocation: data.meetUpLocation,
       orderTime: new Date().toString(),
@@ -44,11 +50,11 @@ const BookingModal = ({ productDetails, setProductDetails }) => {
 
   return (
     <div>
-      <input type="checkbox" id="my-modal-3" className="modal-toggle" />
+      <input type="checkbox" id="booking-modal" className="modal-toggle" />
       <div className="modal">
         <div className="modal-box relative text-left">
           <label
-            htmlFor="my-modal-3"
+            htmlFor="booking-modal"
             className="btn btn-sm bg-secondary text-white btn-circle absolute right-2 top-2"
           >
             ✕
@@ -60,7 +66,8 @@ const BookingModal = ({ productDetails, setProductDetails }) => {
             <div className="w-full flex flex-col justify-start mb-4">
               <label>Buyer Name</label>
               <input
-                {...register("buyerName", { required: true })}
+                defaultValue={user.displayName}
+                disabled
                 className="border rounded-lg p-2 w-full mt-1 text-black"
                 type="text"
                 placeholder="Type here"
@@ -70,7 +77,8 @@ const BookingModal = ({ productDetails, setProductDetails }) => {
               <div className="flex flex-col justify-start">
                 <label>Buyer Email</label>
                 <input
-                  {...register("buyerEmail", { required: true })}
+                  defaultValue={user?.email}
+                  disabled
                   className="border rounded-lg p-2 w-full mt-1 text-black"
                   type="email"
                   placeholder="Type here"

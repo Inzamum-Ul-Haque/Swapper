@@ -109,7 +109,7 @@ const ProductsByCategories = () => {
                       <button className="btn w-max bg-green-500 text-sm text-white hover:bg-green-700 hover:border-green-700 mb-4 ml-4">
                         <label
                           onClick={() => setProductDetails(product)}
-                          htmlFor="my-modal-3"
+                          htmlFor="booking-modal"
                           className="flex items-center "
                         >
                           Book Now{" "}
