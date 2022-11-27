@@ -26,6 +26,9 @@ const routes = createBrowserRouter([
       {
         path: "/category/:id",
         element: <ProductsByCategories />,
+        loader: async ({ params }) => {
+          return fetch(`http://localhost:5000/category/${params.id}`);
+        },
       },
       {
         path: "/blog",

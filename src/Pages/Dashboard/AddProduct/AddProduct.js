@@ -37,6 +37,7 @@ const AddProduct = () => {
             productUsageTime: data.productUsageTime,
             productCondition: data.productCondition,
             productDescription: data.productDescription,
+            productPostTime: new Date().toString(),
             sellerName: user?.displayName,
             sellerEmail: user?.email,
             sellerLocation: data.sellerLocation,

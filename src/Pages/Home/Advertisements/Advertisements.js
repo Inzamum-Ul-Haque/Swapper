@@ -25,10 +25,12 @@ const Advertisements = () => {
             <p>Original Price: Tk 45,000</p>
             <p>Years used: 3 Years</p>
             <p>Posted: 12th February, 12:25 PM</p>
-            <div className="flex items-center">
-              <p className="w-max">Seller: Inzamum-Ul-Haque</p>
-              <MdVerified className="text-xl text-green-500" />
-            </div>
+            <p>
+              <span className="flex items-center">
+                Seller: Inzamum-Ul-Haque{" "}
+                <MdVerified className="text-xl text-primary ml-1" />
+              </span>
+            </p>
             <div className="card-actions mx-auto">
               <button className="btn bg-green-500 text-white hover:bg-green-700 hover:border-green-700 mt-4">
                 Book Now

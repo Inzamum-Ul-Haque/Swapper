@@ -24,6 +24,7 @@ const MyProducts = () => {
   }
 
   const { data } = allProducts;
+  console.log(data);
 
   return (
     <div>
@@ -40,14 +41,14 @@ const MyProducts = () => {
             {data.map((product) => (
               <div
                 key={product._id}
-                className="flex flex-col mb-5 w-full md:flex-row border rounded-lg bg-white shadow-lg"
+                className="p-5 flex flex-col mb-5 w-full md:flex-row border rounded-lg bg-white shadow-lg"
               >
                 <img
                   className="lg:w-64 md:w-64 sm:w-full object-cover rounded-t-lg md:rounded-none md:rounded-l-lg"
                   src={product.productImage}
                   alt=""
                 />
-                <div className="p-6 flex flex-col justify-start text-left">
+                <div className="p-5 flex flex-col justify-start text-left">
                   <h5 className="text-gray-900 text-xl font-medium mb-2">
                     {product.productName}
                   </h5>
@@ -69,16 +70,19 @@ const MyProducts = () => {
                   </p>
                   <div className="flex lg:flex-row md:flex-row sm:flex-col lg:justify-end md:justify-center items-center">
                     <button className="flex items-center btn w-max bg-green-500 text-sm text-white hover:bg-green-700 hover:border-green-700 mb-4">
-                      Advertise <AiFillSound className="ml-2" />
+                      Advertise <AiFillSound className="ml-2 text-lg" />
                     </button>
                     <button className="flex items-center btn w-max bg-red-500 text-sm text-white hover:bg-red-700 hover:border-red-700 mb-4 ml-4">
-                      Delete this product <MdDelete className="ml-2" />
+                      Delete this product <MdDelete className="ml-2 text-lg" />
                     </button>
                     <button className="flex items-center btn w-max bg-primary text-sm text-white hover:bg-primary hover:border-primary mb-4 ml-4">
-                      View Details <AiOutlineInfoCircle className="ml-2" />
+                      View Details{" "}
+                      <AiOutlineInfoCircle className="ml-2 text-lg" />
                     </button>
                   </div>
-                  <p className="text-gray-600 text-sm">Posted on: </p>
+                  <p className="text-gray-600 text-sm">
+                    Posted on: {product?.productPostTime?.slice(0, 24)}
+                  </p>
                 </div>
               </div>
             ))}
