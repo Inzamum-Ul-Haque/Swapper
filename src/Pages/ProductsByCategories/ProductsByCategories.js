@@ -12,6 +12,7 @@ import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "../../Contexts/AuthProvider";
 import Loading from "../Shared/Loading/Loading";
 import ViewDetailsModal from "../Shared/ViewDetailsModal/ViewDetailsModal";
+import BookingModal from "../Shared/BookingModal/BookingModal";
 
 const ProductsByCategories = () => {
   const data = useLoaderData();
@@ -105,9 +106,15 @@ const ProductsByCategories = () => {
                     )}
 
                     {userData?.data?.userType === "Buyer" && (
-                      <button className="flex items-center btn w-max bg-green-500 text-sm text-white hover:bg-green-700 hover:border-green-700 mb-4 ml-4">
-                        Book Now{" "}
-                        <MdProductionQuantityLimits className="ml-2 text-lg" />
+                      <button className="btn w-max bg-green-500 text-sm text-white hover:bg-green-700 hover:border-green-700 mb-4 ml-4">
+                        <label
+                          onClick={() => setProductDetails(product)}
+                          htmlFor="my-modal-3"
+                          className="flex items-center "
+                        >
+                          Book Now{" "}
+                          <MdProductionQuantityLimits className="ml-2 text-lg" />
+                        </label>
                       </button>
                     )}
                   </div>
@@ -132,6 +139,12 @@ const ProductsByCategories = () => {
         </>
       )}
       {productDetails && <ViewDetailsModal productDetails={productDetails} />}
+      {productDetails && (
+        <BookingModal
+          productDetails={productDetails}
+          setProductDetails={setProductDetails}
+        />
+      )}
     </div>
   );
 };

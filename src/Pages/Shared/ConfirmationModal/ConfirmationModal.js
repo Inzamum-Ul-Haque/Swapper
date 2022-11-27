@@ -18,11 +18,11 @@ const ConfirmationModal = ({
             <label
               onClick={() => successAction(modalData._id)}
               htmlFor="confirmation-modal"
-              className="btn btn-error"
+              className="btn btn-error text-white"
             >
               Delete
             </label>
-            <label onClick={closeModal} className="btn btn-outline">
+            <label onClick={closeModal} className="btn bg-secondary text-white">
               Cancel
             </label>
           </div>
