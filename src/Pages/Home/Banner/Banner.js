@@ -14,7 +14,7 @@ const Banner = () => {
 
   return (
     <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 items-center">
-      <div className="text-left text-secondary">
+      <div className="text-left text-secondary p-8">
         <h2 className="text-5xl">
           Buy and Sell Second-hand <span className="text-primary">Laptops</span>
         </h2>
@@ -27,7 +27,7 @@ const Banner = () => {
           Find Categories
         </button>
       </div>
-      <Lottie options={defaultOptions} height={500} width={500} />
+      <Lottie options={defaultOptions} height={400} width={400} />
     </div>
   );
 };

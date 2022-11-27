@@ -56,6 +56,46 @@ const MyProducts = () => {
       });
   };
 
+  const handleAdvertiseProduct = (product) => {
+    const advertiseItem = {
+      productId: product._id,
+      productName: product.productName,
+      productImage: product.productImage,
+      productCategory: product.productCategory,
+      productOriginalPrice: product.productOriginalPrice,
+      productResalePrice: product.productResalePrice,
+      productOnSale: product.productOnSale,
+      productPurchaseYear: product.productPurchaseYear,
+      productUsageTime: product.productUsageTime,
+      productCondition: product.productCondition,
+      productDescription: product.productDescription,
+      productPostTime: product.productPostTime,
+      sellerName: product.sellerName,
+      sellerEmail: product.sellerEmail,
+      sellerLocation: product.sellerLocation,
+      sellerNumber: product.sellerNumber,
+    };
+
+    const loadingToast = toast.loading("Processing...");
+    fetch("http://localhost:5000/advertise", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(advertiseItem),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.status) {
+          toast.success(result.message);
+          toast.remove(loadingToast);
+        } else {
+          toast.error(result.message);
+          toast.remove(loadingToast);
+        }
+      });
+  };
+
   return (
     <div>
       {data.length === 0 ? (
@@ -106,7 +146,10 @@ const MyProducts = () => {
                       : product.productDescription.slice(0, 300) + " ..."}
                   </p>
                   <div className="flex lg:flex-row md:flex-row sm:flex-col lg:justify-end md:justify-center items-center">
-                    <button className="flex items-center btn w-max bg-green-500 text-sm text-white hover:bg-green-700 hover:border-green-700 mb-4">
+                    <button
+                      onClick={() => handleAdvertiseProduct(product)}
+                      className="flex items-center btn w-max bg-green-500 text-sm text-white hover:bg-green-700 hover:border-green-700 mb-4"
+                    >
                       Advertise <AiFillSound className="ml-2 text-lg" />
                     </button>
                     <button

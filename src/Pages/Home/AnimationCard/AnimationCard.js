@@ -43,7 +43,7 @@ const AnimationCard = () => {
 
   return (
     <div className="mt-20">
-      <div className="grid lg:grid-cols-3 md:grid-cols-2 md:gap-5 sm:grid-cols-1 sm:gap-5 text-white">
+      <div className="grid justify-items-center gap-y-5 lg:grid-cols-3 md:grid-cols-2 md:gap-5 sm:grid-cols-1 sm:gap-5 text-white">
         {defaultOptions.map((defaultOption, idx) => (
           <div key={idx} className="card w-96 h-80 shadow-2xl bg-green-500">
             <figure>

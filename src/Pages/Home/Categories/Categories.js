@@ -20,8 +20,10 @@ const Categories = () => {
 
   return (
     <div className="mt-20 text-secondary">
-      <h2 className="text-left text-4xl">Categories</h2>
-      <div className="mt-10 grid gap-5 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1">
+      <h2 className="lg:text-left md:text-center sm:text-center text-4xl">
+        Categories
+      </h2>
+      <div className="mt-10 grid gap-5 justify-items-center lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1">
         {data.map((category) => (
           <div
             key={category._id}
