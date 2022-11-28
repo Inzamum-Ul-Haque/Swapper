@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { AuthContext } from "../../Contexts/AuthProvider";
 import { GoogleAuthProvider } from "firebase/auth";
 import { toast } from "react-hot-toast";
+import useToken from "../../Hooks/useToken";
 
 const SignIn = () => {
   const { signInUser, providerLogin } = useContext(AuthContext);
@@ -14,6 +15,8 @@ const SignIn = () => {
   const [googleLoginError, setGoogleLoginError] = useState("");
   const [loadingButton, setLoadingButton] = useState(false);
   const googleProvider = new GoogleAuthProvider();
+  const [loginUserEmail, setLoginUserEmail] = useState("");
+  const [token] = useToken(loginUserEmail);
   const location = useLocation();
   const navigate = useNavigate();
   const {
@@ -23,6 +26,10 @@ const SignIn = () => {
   } = useForm();
   const from = location.state?.from?.pathname || "/";
 
+  if (token) {
+    navigate(from, { replace: true });
+  }
+
   const handleSignIn = (data) => {
     setLoginError("");
 
@@ -30,8 +37,8 @@ const SignIn = () => {
     signInUser(data.email, data.password)
       .then((result) => {
         // issue jwt
+        setLoginUserEmail(data.email);
         setLoadingButton(false);
-        navigate(from, { replace: true });
       })
       .catch((error) => {
         console.error(error);
@@ -44,13 +51,14 @@ const SignIn = () => {
     setGoogleLoginError("");
     providerLogin(googleProvider)
       .then((result) => {
-        fetch(`http://localhost:5000/checkUser?email=${result.user.email}`)
+        fetch(`http://localhost:5000/checkUser?email=${result?.user?.email}`)
           .then((res) => res.json())
           .then((data) => {
             // checks if user already exists in db
             // if(user does not exist) then call saveusertomongo
             if (data.status) {
-              navigate(from, { replace: true });
+              setLoginUserEmail(result?.user?.email);
+              // navigate(from, { replace: true });
             } else {
               saveUserToDb(
                 result.user.email,
@@ -86,8 +94,9 @@ const SignIn = () => {
       .then((data) => {
         if (data.status) {
           // issue jwt token
+          setLoginUserEmail(email);
           toast.success(data.message);
-          navigate(from, { replace: true });
+          // navigate(from, { replace: true });
         } else {
           toast.error(data.message);
         }

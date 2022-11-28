@@ -5,11 +5,14 @@ import signup from "../../Assets/lotties/signup.json";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../Contexts/AuthProvider";
 import { toast } from "react-hot-toast";
+import useToken from "../../Hooks/useToken";
 
 const SignUp = () => {
   const { createUser, updateUserProfile } = useContext(AuthContext);
   const [passwordMatchError, setPasswordMatchError] = useState("");
   const [signUpError, setSignUpError] = useState("");
+  const [loginUserEmail, setLoginUserEmail] = useState("");
+  const [token] = useToken(loginUserEmail);
   const [loadingButton, setLoadingButton] = useState(false);
   const navigate = useNavigate();
   const {
@@ -17,6 +20,10 @@ const SignUp = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  if (token) {
+    navigate("/");
+  }
 
   const handleSignUp = (data) => {
     setSignUpError("");
@@ -83,9 +90,10 @@ const SignUp = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.status) {
+          setLoginUserEmail(email);
           toast.success(data.message);
           setLoadingButton(false);
-          navigate("/");
+          // navigate("/");
         } else {
           toast.error(data.message);
           setLoadingButton(false);

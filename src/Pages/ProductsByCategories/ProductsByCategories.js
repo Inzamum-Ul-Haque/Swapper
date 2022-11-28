@@ -138,7 +138,8 @@ const ProductsByCategories = () => {
 
                     {(userData?.data?.userType === "Buyer" ||
                       userData?.data?.userType === "Seller" ||
-                      userData?.data?.userType === "Admin") && (
+                      userData?.data?.userType === "Admin" ||
+                      !user) && (
                       <button className="btn w-max bg-primary text-sm text-white hover:bg-primary hover:border-primary mb-4 ml-4">
                         <label
                           onClick={() => setProductDetails(product)}

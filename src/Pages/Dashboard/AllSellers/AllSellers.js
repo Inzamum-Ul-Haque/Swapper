@@ -17,7 +17,12 @@ const AllSellers = () => {
     queryKey: ["buyers"],
     queryFn: async () => {
       const res = await axios.get(
-        `http://localhost:5000/users?type=${"Seller"}`
+        `http://localhost:5000/users?type=${"Seller"}`,
+        {
+          headers: {
+            authorization: `bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
       );
       return res.data;
     },

@@ -11,6 +11,7 @@ const Navbar = () => {
   const handleLogOut = () => {
     signOutUser()
       .then(() => {
+        localStorage.removeItem("accessToken");
         navigate("/sign-in");
       })
       .catch((error) => {

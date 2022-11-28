@@ -17,7 +17,12 @@ const AllBuyers = () => {
     queryKey: ["buyers"],
     queryFn: async () => {
       const res = await axios.get(
-        `http://localhost:5000/users?type=${"Buyer"}`
+        `http://localhost:5000/users?type=${"Buyer"}`,
+        {
+          headers: {
+            authorization: `bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
       );
       return res.data;
     },
@@ -52,7 +57,7 @@ const AllBuyers = () => {
 
   return (
     <div>
-      {allData.length === 0 ? (
+      {allData?.length === 0 ? (
         <h1 className="text-4xl text-center mt-16 text-gray-600">
           No buyers to show
         </h1>
@@ -74,10 +79,10 @@ const AllBuyers = () => {
               {allData.map((singleUser, idx) => (
                 <tr key={singleUser._id}>
                   <th>{idx + 1}</th>
-                  <td>{singleUser.name}</td>
-                  <td>{singleUser.email}</td>
+                  <td>{singleUser?.name}</td>
+                  <td>{singleUser?.email}</td>
                   <td className="flex justify-evenly items-center">
-                    {singleUser.verified ? (
+                    {singleUser?.verified ? (
                       <p className="text-sm font-bold text-green-500">
                         Verified
                       </p>

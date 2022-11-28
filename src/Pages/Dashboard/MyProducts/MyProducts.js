@@ -22,7 +22,12 @@ const MyProducts = () => {
     queryKey: ["products", user?.email],
     queryFn: async () => {
       const res = await axios.get(
-        `http://localhost:5000/products?email=${user?.email}`
+        `http://localhost:5000/products?email=${user?.email}`,
+        {
+          headers: {
+            authorization: `bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
       );
       return res.data;
     },
