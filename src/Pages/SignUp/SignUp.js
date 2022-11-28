@@ -38,7 +38,9 @@ const SignUp = () => {
 
     // checks if user already exists in db
     // if(user does not exist) then call saveusertomongo
-    fetch(`http://localhost:5000/checkUser?email=${data.email}`)
+    fetch(
+      `https://products-resale-server-nu.vercel.app/checkUser?email=${data.email}`
+    )
       .then((res) => res.json())
       .then((serverData) => {
         if (serverData.status) {
@@ -80,7 +82,7 @@ const SignUp = () => {
       verified,
     };
 
-    fetch("http://localhost:5000/user", {
+    fetch("https://products-resale-server-nu.vercel.app/user", {
       method: "POST",
       headers: {
         "content-type": "application/json",

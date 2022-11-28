@@ -18,7 +18,7 @@ const MyOrders = () => {
     queryKey: ["orders", user?.email],
     queryFn: async () => {
       const res = await axios.get(
-        `http://localhost:5000/orders?email=${user?.email}`,
+        `https://products-resale-server-nu.vercel.app/orders?email=${user?.email}`,
         {
           headers: {
             authorization: `bearer ${localStorage.getItem("accessToken")}`,

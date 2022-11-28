@@ -18,7 +18,7 @@ const AddProduct = () => {
     queryKey: ["user", user?.email],
     queryFn: async () => {
       const res = await axios.get(
-        `http://localhost:5000/user?email=${user?.email}`
+        `https://products-resale-server-nu.vercel.app/user?email=${user?.email}`
       );
       return res.data;
     },
@@ -58,7 +58,7 @@ const AddProduct = () => {
           };
 
           // save product info to database
-          fetch("http://localhost:5000/product", {
+          fetch("https://products-resale-server-nu.vercel.app/product", {
             method: "POST",
             headers: {
               "content-type": "application/json",
