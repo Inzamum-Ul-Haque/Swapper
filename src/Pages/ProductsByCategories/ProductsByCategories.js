@@ -127,7 +127,7 @@ const ProductsByCategories = () => {
                     </span>{" "}
                     <span className="flex items-center">
                       by {product.sellerName}{" "}
-                      {userData?.data?.verified && (
+                      {product?.sellerVerified && (
                         <MdVerified className="text-primary ml-1" />
                       )}
                     </span>

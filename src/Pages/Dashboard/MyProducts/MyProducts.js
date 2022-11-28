@@ -74,6 +74,7 @@ const MyProducts = () => {
       sellerEmail: product.sellerEmail,
       sellerLocation: product.sellerLocation,
       sellerNumber: product.sellerNumber,
+      sellerVerified: product.sellerVerified,
     };
 
     const loadingToast = toast.loading("Processing...");

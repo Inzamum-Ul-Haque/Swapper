@@ -4,6 +4,8 @@ import { GrAdd } from "react-icons/gr";
 import { AuthContext } from "../../../Contexts/AuthProvider";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 const AddProduct = () => {
   const { register, handleSubmit } = useForm();
@@ -11,6 +13,16 @@ const AddProduct = () => {
   const imgHostingKey = process.env.REACT_APP_imgbb_key;
   const [loadingButton, setLoadingButton] = useState(false);
   const navigate = useNavigate();
+
+  const { data: userData = [] } = useQuery({
+    queryKey: ["user", user?.email],
+    queryFn: async () => {
+      const res = await axios.get(
+        `http://localhost:5000/user?email=${user?.email}`
+      );
+      return res.data;
+    },
+  });
 
   const handleAddProduct = (data) => {
     // send the image and get the url from imgbb
@@ -42,6 +54,7 @@ const AddProduct = () => {
             sellerEmail: user?.email,
             sellerLocation: data.sellerLocation,
             sellerNumber: data.sellerNumber,
+            sellerVerified: userData.data.verified,
           };
 
           // save product info to database
