@@ -59,7 +59,7 @@ const DashboardLayout = () => {
           </Link>
         </li>
         <li className="hover:bg-gray-300 rounded-md">
-          <Link to="/dashboard">
+          <Link to="/dashboard/my-buyers">
             <BsPeopleFill /> My Buyers
           </Link>
         </li>

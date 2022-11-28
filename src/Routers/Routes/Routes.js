@@ -16,6 +16,7 @@ import ProductsByCategories from "../../Pages/ProductsByCategories/ProductsByCat
 import MyWishlist from "../../Pages/Dashboard/MyWishlist/MyWishlist";
 import ErrorElement from "../../Pages/Shared/Error/ErrorElement";
 import PrivateRoute from "./PrivateRoute";
+import MyBuyers from "../../Pages/Dashboard/MyBuyers/MyBuyers";
 
 const routes = createBrowserRouter([
   {
@@ -78,6 +79,10 @@ const routes = createBrowserRouter([
       {
         path: "/dashboard/my-products",
         element: <MyProducts />,
+      },
+      {
+        path: "/dashboard/my-buyers",
+        element: <MyBuyers />,
       },
       {
         path: "/dashboard/all-sellers",
