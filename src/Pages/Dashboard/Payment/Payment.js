@@ -5,7 +5,7 @@ import CheckoutForm from "./CheckoutForm";
 
 const stripePromise = loadStripe(process.env.REACT_APP_stripe_pk);
 
-const Payment = ({ bookingData }) => {
+const Payment = ({ bookingData, setBookingData, handlePayment }) => {
   return (
     <div>
       <input type="checkbox" id="payment-modal" className="modal-toggle" />
@@ -26,7 +26,11 @@ const Payment = ({ bookingData }) => {
           </p>
           <div className="mt-5 border p-5">
             <Elements stripe={stripePromise}>
-              <CheckoutForm bookingData={bookingData} />
+              <CheckoutForm
+                setBookingData={setBookingData}
+                bookingData={bookingData}
+                handlePayment={handlePayment}
+              />
             </Elements>
           </div>
         </div>

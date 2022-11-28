@@ -1,15 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useContext, useState } from "react";
-import { MdDelete, MdPayment } from "react-icons/md";
+import { MdPayment } from "react-icons/md";
 import { AuthContext } from "../../../Contexts/AuthProvider";
 import Loading from "../../Shared/Loading/Loading";
 import Payment from "../Payment/Payment";
 
 const MyOrders = () => {
+  // const [paid, setPaid] = useState("");
   const { user } = useContext(AuthContext);
   const [bookingData, setBookingData] = useState(null);
-  const { data: orders, isLoading } = useQuery({
+  const {
+    data: orders,
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["orders", user?.email],
     queryFn: async () => {
       const res = await axios.get(
@@ -25,7 +30,9 @@ const MyOrders = () => {
 
   const { data } = orders;
 
-  // const handlePayment = () => {};
+  const handlePayment = () => {
+    refetch();
+  };
 
   return (
     <div>
@@ -41,10 +48,11 @@ const MyOrders = () => {
           <table className="table w-full">
             <thead>
               <tr>
-                <th className="bg-gray-300 w-[10%]">Serial</th>
-                <th className="bg-gray-300 w-[35%]">Product Name</th>
-                <th className="bg-gray-300 w-[35%]">Price</th>
-                <th className="bg-gray-300 w-[20%] text-center">Action</th>
+                <th className="bg-gray-300 w-[5%]">Serial</th>
+                <th className="bg-gray-300 w-[30%]">Product Name</th>
+                <th className="bg-gray-300 w-[30%]">Price</th>
+                <th className="bg-gray-300 w-[30%]">Tr Id</th>
+                <th className="bg-gray-300 w-[5%] text-center">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -69,19 +77,27 @@ const MyOrders = () => {
                     </div>
                   </td>
                   <td>Tk {singleData?.productResalePrice}</td>
-                  <td className="flex justify-evenly items-center">
-                    <button className="text-white text-sm btn btn-sm bg-yellow-500 hover:bg-yellow-600 hover:border-yellow-600">
-                      <label
-                        onClick={() => setBookingData(singleData)}
-                        htmlFor="payment-modal"
-                        className="flex items-center"
-                      >
-                        Pay <MdPayment className="ml-1" />
-                      </label>
-                    </button>
-                    <button className="text-white text-sm btn btn-sm bg-red-500 hover:bg-red-600 hover:border-red-600">
-                      Delete <MdDelete className="ml-1" />
-                    </button>
+                  <td>
+                    {singleData?.transactionId ? (
+                      <p>{singleData.transactionId}</p>
+                    ) : (
+                      <p>...</p>
+                    )}
+                  </td>
+                  <td>
+                    {singleData?.paid ? (
+                      <p className="text-lg font-bold text-green-500">Paid</p>
+                    ) : (
+                      <button className="text-white text-sm btn btn-sm bg-yellow-500 hover:bg-yellow-600 hover:border-yellow-600">
+                        <label
+                          onClick={() => setBookingData(singleData)}
+                          htmlFor="payment-modal"
+                          className="flex items-center"
+                        >
+                          Pay <MdPayment className="ml-1" />
+                        </label>
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))}
@@ -89,7 +105,13 @@ const MyOrders = () => {
           </table>
         </div>
       )}
-      {bookingData && <Payment bookingData={bookingData} />}
+      {bookingData && (
+        <Payment
+          setBookingData={setBookingData}
+          bookingData={bookingData}
+          handlePayment={handlePayment}
+        />
+      )}
     </div>
   );
 };

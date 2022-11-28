@@ -22,6 +22,8 @@ const BookingModal = ({ productDetails, setProductDetails }) => {
       buyerEmail: user?.email,
       buyerNumber: data.buyerNumber,
       meetUpLocation: data.meetUpLocation,
+      transactionId: "",
+      paid: false,
       orderTime: new Date().toString(),
     };
 

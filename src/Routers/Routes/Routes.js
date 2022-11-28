@@ -15,6 +15,7 @@ import SignUp from "../../Pages/SignUp/SignUp";
 import ProductsByCategories from "../../Pages/ProductsByCategories/ProductsByCategories";
 import MyWishlist from "../../Pages/Dashboard/MyWishlist/MyWishlist";
 import ErrorElement from "../../Pages/Shared/Error/ErrorElement";
+import PrivateRoute from "./PrivateRoute";
 
 const routes = createBrowserRouter([
   {
@@ -49,7 +50,11 @@ const routes = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <DashboardLayout />,
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
     errorElement: <ErrorElement />,
     children: [
       {
