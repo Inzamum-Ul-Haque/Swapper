@@ -14,11 +14,13 @@ import SignIn from "../../Pages/SignIn/SignIn";
 import SignUp from "../../Pages/SignUp/SignUp";
 import ProductsByCategories from "../../Pages/ProductsByCategories/ProductsByCategories";
 import MyWishlist from "../../Pages/Dashboard/MyWishlist/MyWishlist";
+import ErrorElement from "../../Pages/Shared/Error/ErrorElement";
 
 const routes = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
+    errorElement: <ErrorElement />,
     children: [
       {
         path: "/",
@@ -48,6 +50,7 @@ const routes = createBrowserRouter([
   {
     path: "/dashboard",
     element: <DashboardLayout />,
+    errorElement: <ErrorElement />,
     children: [
       {
         path: "/dashboard",

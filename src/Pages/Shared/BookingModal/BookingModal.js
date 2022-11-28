@@ -58,13 +58,13 @@ const BookingModal = ({ productDetails, setProductDetails }) => {
             ✕
           </label>
           <h3 className="text-2xl font-bold">
-            Book Order to Purchase {productDetails.productName}
+            Book Order to Purchase {productDetails?.productName}
           </h3>
           <form onSubmit={handleSubmit(handleBookOrder)}>
             <div className="w-full flex flex-col justify-start mb-4">
               <label>Buyer Name</label>
               <input
-                defaultValue={user.displayName}
+                defaultValue={user?.displayName}
                 disabled
                 className="border rounded-lg p-2 w-full mt-1 text-black"
                 type="text"
@@ -129,7 +129,7 @@ const BookingModal = ({ productDetails, setProductDetails }) => {
                   </svg>
                   Processing...
                 </button>
-              ) : (
+              ) : user ? (
                 <button
                   className="btn w-max bg-green-500 text-sm text-white hover:bg-green-700 hover:border-green-700"
                   type="submit"
@@ -137,6 +137,10 @@ const BookingModal = ({ productDetails, setProductDetails }) => {
                   Book Order{" "}
                   <MdProductionQuantityLimits className="ml-2 text-lg" />
                 </button>
+              ) : (
+                <p className="text-lg">
+                  Please <span>Sign In</span> to book this product!
+                </p>
               )}
             </div>
           </form>

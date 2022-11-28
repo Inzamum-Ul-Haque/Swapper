@@ -1,12 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { MdDelete, MdPayment } from "react-icons/md";
 import { AuthContext } from "../../../Contexts/AuthProvider";
 import Loading from "../../Shared/Loading/Loading";
+import Payment from "../Payment/Payment";
 
 const MyOrders = () => {
   const { user } = useContext(AuthContext);
+  const [bookingData, setBookingData] = useState(null);
   const { data: orders, isLoading } = useQuery({
     queryKey: ["orders", user?.email],
     queryFn: async () => {
@@ -22,6 +24,8 @@ const MyOrders = () => {
   }
 
   const { data } = orders;
+
+  // const handlePayment = () => {};
 
   return (
     <div>
@@ -67,7 +71,13 @@ const MyOrders = () => {
                   <td>Tk {singleData?.productResalePrice}</td>
                   <td className="flex justify-evenly items-center">
                     <button className="text-white text-sm btn btn-sm bg-yellow-500 hover:bg-yellow-600 hover:border-yellow-600">
-                      Pay <MdPayment className="ml-1" />
+                      <label
+                        onClick={() => setBookingData(singleData)}
+                        htmlFor="payment-modal"
+                        className="flex items-center"
+                      >
+                        Pay <MdPayment className="ml-1" />
+                      </label>
                     </button>
                     <button className="text-white text-sm btn btn-sm bg-red-500 hover:bg-red-600 hover:border-red-600">
                       Delete <MdDelete className="ml-1" />
@@ -79,6 +89,7 @@ const MyOrders = () => {
           </table>
         </div>
       )}
+      {bookingData && <Payment bookingData={bookingData} />}
     </div>
   );
 };
