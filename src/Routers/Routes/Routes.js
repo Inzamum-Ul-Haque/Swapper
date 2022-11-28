@@ -13,6 +13,7 @@ import Error from "../../Pages/Shared/Error/Error";
 import SignIn from "../../Pages/SignIn/SignIn";
 import SignUp from "../../Pages/SignUp/SignUp";
 import ProductsByCategories from "../../Pages/ProductsByCategories/ProductsByCategories";
+import MyWishlist from "../../Pages/Dashboard/MyWishlist/MyWishlist";
 
 const routes = createBrowserRouter([
   {
@@ -55,6 +56,10 @@ const routes = createBrowserRouter([
       {
         path: "/dashboard/my-orders",
         element: <MyOrders />,
+      },
+      {
+        path: "/dashboard/my-wishlist",
+        element: <MyWishlist />,
       },
       {
         path: "/dashboard/add-product",

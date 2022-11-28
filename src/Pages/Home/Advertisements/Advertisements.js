@@ -34,7 +34,6 @@ const Advertisements = () => {
   }
 
   const { data } = advertisements;
-  console.log(data);
 
   return (
     <div className="mt-20 text-secondary">

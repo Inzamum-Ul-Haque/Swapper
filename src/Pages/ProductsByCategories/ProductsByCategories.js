@@ -13,6 +13,7 @@ import { AuthContext } from "../../Contexts/AuthProvider";
 import Loading from "../Shared/Loading/Loading";
 import ViewDetailsModal from "../Shared/ViewDetailsModal/ViewDetailsModal";
 import BookingModal from "../Shared/BookingModal/BookingModal";
+import toast from "react-hot-toast";
 
 const ProductsByCategories = () => {
   const data = useLoaderData();
@@ -31,6 +32,48 @@ const ProductsByCategories = () => {
   if (isLoading) {
     return <Loading />;
   }
+
+  const handleAddToWishlist = (product) => {
+    const wishListItem = {
+      productId: product._id,
+      productName: product.productName,
+      productImage: product.productImage,
+      productCategory: product.productCategory,
+      productOriginalPrice: product.productOriginalPrice,
+      productResalePrice: product.productResalePrice,
+      productOnSale: product.productOnSale,
+      productPurchaseYear: product.productPurchaseYear,
+      productUsageTime: product.productUsageTime,
+      productCondition: product.productCondition,
+      productDescription: product.productDescription,
+      productPostTime: product.productPostTime,
+      buyerEmail: user.email,
+      sellerName: product.sellerName,
+      sellerEmail: product.sellerEmail,
+      sellerLocation: product.sellerLocation,
+      sellerNumber: product.sellerNumber,
+      sellerVerified: product.sellerVerified,
+    };
+
+    const loadingToast = toast.loading("Processing...");
+    fetch("http://localhost:5000/addToWishlist", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(wishListItem),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.status) {
+          toast.success(result.message);
+          toast.remove(loadingToast);
+        } else {
+          toast.error(result.message);
+          toast.remove(loadingToast);
+        }
+      });
+  };
 
   return (
     <div className="mt-20 text-secondary">
@@ -84,7 +127,10 @@ const ProductsByCategories = () => {
                   </p>
                   <div className="flex lg:flex-row md:flex-row sm:flex-col lg:justify-end md:justify-center items-center">
                     {userData?.data?.userType === "Buyer" && (
-                      <button className="flex items-center btn w-max bg-yellow-500 text-sm text-white hover:bg-yellow-600 hover:border-yellow-600 mb-4 ml-4">
+                      <button
+                        onClick={() => handleAddToWishlist(product)}
+                        className="flex items-center btn w-max bg-yellow-500 text-sm text-white hover:bg-yellow-600 hover:border-yellow-600 mb-4 ml-4"
+                      >
                         Add to Wishlist{" "}
                         <MdOutlineNoteAdd className="ml-2 text-lg" />
                       </button>

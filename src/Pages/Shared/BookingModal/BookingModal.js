@@ -9,8 +9,6 @@ const BookingModal = ({ productDetails, setProductDetails }) => {
   const [loading, setLoading] = useState(false);
   const { user } = useContext(AuthContext);
 
-  console.log(productDetails);
-
   const handleBookOrder = (data) => {
     const booking = {
       productId: productDetails.productId,

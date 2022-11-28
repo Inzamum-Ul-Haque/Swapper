@@ -22,7 +22,6 @@ const MyOrders = () => {
   }
 
   const { data } = orders;
-  console.log(data);
 
   return (
     <div>
