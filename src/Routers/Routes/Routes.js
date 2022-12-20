@@ -32,9 +32,7 @@ const routes = createBrowserRouter([
         path: "/category/:id",
         element: <ProductsByCategories />,
         loader: async ({ params }) => {
-          return fetch(
-            `https://products-resale-server-nu.vercel.app/category/${params.id}`
-          );
+          return fetch(`http://localhost:5000/category/${params.id}`);
         },
       },
       {

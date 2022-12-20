@@ -17,7 +17,7 @@ const AllSellers = () => {
     queryKey: ["buyers"],
     queryFn: async () => {
       const res = await axios.get(
-        `https://products-resale-server-nu.vercel.app/users?type=${"Seller"}`,
+        `http://localhost:5000/users?type=${"Seller"}`,
         {
           headers: {
             authorization: `bearer ${localStorage.getItem("accessToken")}`,
@@ -39,7 +39,7 @@ const AllSellers = () => {
 
   const handleVerifySeller = (email) => {
     const loadingToast = toast.loading("Verifying seller...");
-    fetch(`https://products-resale-server-nu.vercel.app/user?email=${email}`, {
+    fetch(`http://localhost:5000/user?email=${email}`, {
       method: "PATCH",
     })
       .then((res) => res.json())
@@ -57,7 +57,7 @@ const AllSellers = () => {
 
   const handleDeleteSeller = (email) => {
     const loadingToast = toast.loading("Deleting seller...");
-    fetch(`https://products-resale-server-nu.vercel.app/user?email=${email}`, {
+    fetch(`http://localhost:5000/user?email=${email}`, {
       method: "DELETE",
     })
       .then((res) => res.json())

@@ -1,3 +1,17 @@
+# Swapper: Buy Second hand laptops from Sellers
+
+Swapper is a laptop reselling website for used laptops. A normal user or buyer can buy any of the used laptops posted by the seller. There is also an admin system where admins can verify buyers or sellers and delete some reported items.
+
+## Features
+
+- Login registration system using Google and secure JWT API for buyers, sellers, and admins
+- Product posting, advertisement system by sellers where on the home page the seller's products will be advertised
+- Buyers can view and book a product, and buyers can also save their desired products into their wishlist
+- Admin can verify buyers and sellers, delete added or reported products by the sellers
+- Users can pay online using their card or by meeting sellers and paying them directly
+- Routes are protected by JWT tokens, unauthorized intervention of data can’t be possible
+- Card payment system is implemented by Stripe
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

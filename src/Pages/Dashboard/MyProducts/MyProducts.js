@@ -22,7 +22,7 @@ const MyProducts = () => {
     queryKey: ["products", user?.email],
     queryFn: async () => {
       const res = await axios.get(
-        `https://products-resale-server-nu.vercel.app/products?email=${user?.email}`,
+        `http://localhost:5000/products?email=${user?.email}`,
         {
           headers: {
             authorization: `bearer ${localStorage.getItem("accessToken")}`,
@@ -45,7 +45,7 @@ const MyProducts = () => {
 
   const handleDeleteProduct = (id) => {
     const loadingToast = toast.loading("Deleting buyer...");
-    fetch(`https://products-resale-server-nu.vercel.app/product/${id}`, {
+    fetch(`http://localhost:5000/product/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
@@ -83,7 +83,7 @@ const MyProducts = () => {
     };
 
     const loadingToast = toast.loading("Processing...");
-    fetch("https://products-resale-server-nu.vercel.app/advertise", {
+    fetch("http://localhost:5000/advertise", {
       method: "POST",
       headers: {
         "content-type": "application/json",

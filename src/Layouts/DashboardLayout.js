@@ -15,7 +15,7 @@ import Loading from "../Pages/Shared/Loading/Loading";
 
 const DashboardLayout = () => {
   const { user } = useContext(AuthContext);
-  const url = `https://products-resale-server-nu.vercel.app/user?email=${user?.email}`;
+  const url = `http://localhost:5000/user?email=${user?.email}`;
 
   const { data: userData = [], isLoading } = useQuery({
     queryKey: ["user", user?.email],

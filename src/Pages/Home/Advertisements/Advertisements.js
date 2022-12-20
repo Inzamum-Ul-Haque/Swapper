@@ -1,12 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import sale from "../../../Assets/lotties/sale.json";
 import React, { useContext, useState } from "react";
 import { MdVerified } from "react-icons/md";
-import sale from "../../../Assets/gifs/icons8-sale.gif";
 import { AuthContext } from "../../../Contexts/AuthProvider";
 import BookingModal from "../../Shared/BookingModal/BookingModal";
 import Loading from "../../Shared/Loading/Loading";
 import ViewDetailsModal from "../../Shared/ViewDetailsModal/ViewDetailsModal";
+import LottieAnim from "../../Utils/LottieAnim";
 
 const Advertisements = () => {
   const { user } = useContext(AuthContext);
@@ -14,9 +15,7 @@ const Advertisements = () => {
   const { data: advertisements = [], isLoading } = useQuery({
     queryKey: ["advertise"],
     queryFn: async () => {
-      const res = await axios.get(
-        "https://products-resale-server-nu.vercel.app/advertise"
-      );
+      const res = await axios.get("http://localhost:5000/advertise");
       return res.data;
     },
   });
@@ -25,7 +24,7 @@ const Advertisements = () => {
     queryKey: ["user", user?.email],
     queryFn: async () => {
       const res = await axios.get(
-        `https://products-resale-server-nu.vercel.app/user?email=${user?.email}`
+        `http://localhost:5000/user?email=${user?.email}`
       );
       return res.data;
     },
@@ -53,11 +52,9 @@ const Advertisements = () => {
                 className="card w-72 bg-base-100 shadow-xl relative"
               >
                 {singleData?.productOnSale === "Yes" ? (
-                  <img
-                    src={sale}
-                    className="w-12 absolute right-5 top-5"
-                    alt=""
-                  />
+                  <div className="absolute -right-1 top-1">
+                    <LottieAnim data={sale} height={80} width={80} />
+                  </div>
                 ) : (
                   <></>
                 )}
@@ -65,7 +62,7 @@ const Advertisements = () => {
                   <img
                     src={singleData?.productImage}
                     alt=""
-                    className="rounded-md"
+                    className="rounded-md mt-4"
                   />
                 </figure>
                 <div className="card-body text-left">

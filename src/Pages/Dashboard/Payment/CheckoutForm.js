@@ -16,17 +16,14 @@ const CheckoutForm = ({ bookingData, setBookingData, handlePayment }) => {
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
-    fetch(
-      "https://products-resale-server-nu.vercel.app/create-payment-intent",
-      {
-        method: "POST",
-        headers: {
-          "content-Type": "application/json",
-          // authorization: `bearer ${localStorage.getItem("accessToken")}`,
-        },
-        body: JSON.stringify({ productResalePrice }),
-      }
-    )
+    fetch("http://localhost:5000/create-payment-intent", {
+      method: "POST",
+      headers: {
+        "content-Type": "application/json",
+        // authorization: `bearer ${localStorage.getItem("accessToken")}`,
+      },
+      body: JSON.stringify({ productResalePrice }),
+    })
       .then((res) => res.json())
       .then((data) => setClientSecret(data.clientSecret));
   }, [productResalePrice]);
@@ -78,7 +75,7 @@ const CheckoutForm = ({ bookingData, setBookingData, handlePayment }) => {
       };
 
       fetch(
-        `https://products-resale-server-nu.vercel.app/booking?email=${user?.email}&id=${bookingData.productId}`,
+        `http://localhost:5000/booking?email=${user?.email}&id=${bookingData.productId}`,
         {
           method: "PATCH",
 

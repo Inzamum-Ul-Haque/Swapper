@@ -51,9 +51,7 @@ const SignIn = () => {
     setGoogleLoginError("");
     providerLogin(googleProvider)
       .then((result) => {
-        fetch(
-          `https://products-resale-server-nu.vercel.app/checkUser?email=${result?.user?.email}`
-        )
+        fetch(`http://localhost:5000/checkUser?email=${result?.user?.email}`)
           .then((res) => res.json())
           .then((data) => {
             // checks if user already exists in db
@@ -85,7 +83,7 @@ const SignIn = () => {
       verified,
     };
 
-    fetch("https://products-resale-server-nu.vercel.app/user", {
+    fetch("http://localhost:5000/user", {
       method: "POST",
       headers: {
         "content-type": "application/json",
