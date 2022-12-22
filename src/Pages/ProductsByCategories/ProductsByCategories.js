@@ -20,7 +20,7 @@ const ProductsByCategories = () => {
   const { user } = useContext(AuthContext);
   const [productDetails, setProductDetails] = useState(null);
 
-  const url = `http://localhost:5000/user?email=${user?.email}`;
+  const url = `https://products-resale-server-nu.vercel.app/user?email=${user?.email}`;
   const { data: userData = [], isLoading } = useQuery({
     queryKey: ["user", user?.email],
     queryFn: async () => {
@@ -56,7 +56,7 @@ const ProductsByCategories = () => {
     };
 
     const loadingToast = toast.loading("Processing...");
-    fetch("http://localhost:5000/addToWishlist", {
+    fetch("https://products-resale-server-nu.vercel.app/addToWishlist", {
       method: "POST",
       headers: {
         "content-type": "application/json",

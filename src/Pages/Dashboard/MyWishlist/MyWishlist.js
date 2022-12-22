@@ -25,7 +25,7 @@ const MyWishlist = () => {
     queryKey: ["wishlist", user?.email],
     queryFn: async () => {
       const res = await axios.get(
-        `http://localhost:5000/wishlist?email=${user?.email}`
+        `https://products-resale-server-nu.vercel.app/wishlist?email=${user?.email}`
       );
       return res.data;
     },
@@ -40,7 +40,7 @@ const MyWishlist = () => {
   const handleDeleteFromWishlist = (productId) => {
     const loadingToast = toast.loading("Processing...");
     fetch(
-      `http://localhost:5000/wishlist?email=${user?.email}&productId=${productId}`,
+      `https://products-resale-server-nu.vercel.app/wishlist?email=${user?.email}&productId=${productId}`,
       {
         method: "DELETE",
       }
